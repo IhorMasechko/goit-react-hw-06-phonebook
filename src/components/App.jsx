@@ -8,7 +8,7 @@ import { addContact, delContact } from 'redux/slices/contacs';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
+  const { filter } = useSelector(getFilter);
 
   const dispatch = useDispatch();
 
@@ -38,7 +38,6 @@ export const App = () => {
   return (
     <div
       style={{
-        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

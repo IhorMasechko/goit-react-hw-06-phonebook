@@ -16,24 +16,26 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    addContact(state, action) {
-      state.items.push(action.payload);
+    addContact: {
+      reducer(state, action) {
+        state.items.push(action.payload);
+      },
+      prepare(nameText, numberText) {
+        return {
+          payload: {
+            id: nanoid(),
+            name: nameText,
+            number: numberText,
+          },
+        };
+      },
     },
-    prepare(name, number) {
-      return {
-        payload: {
-          name,
-          number,
-          id: nanoid(),
-        },
-      };
+    deleteContact(state, action) {
+      const index = state.items.findIndex(
+        contacts => contacts.id === action.payload
+      );
+      state.items.splice(index, 1);
     },
-  },
-  deleteContact(state, action) {
-    const index = state.items.findIndex(
-      contacts => contacts.id === action.payload
-    );
-    state.items.splice(index, 1);
   },
 });
 
