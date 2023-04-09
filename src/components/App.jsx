@@ -1,37 +1,16 @@
 import { useSelector } from 'react-redux';
-import React, { useState, useEffect } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { getContacts, getFilter } from 'redux/selectors';
 import { useDispatch } from 'react-redux';
-import { addContact, delContact } from 'redux/actions';
+import { addContact, delContact } from 'redux/slices/contacs';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
 
   const dispatch = useDispatch();
-
-  const [firstRenderFlag, setFlag] = useState(true);
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    if (firstRenderFlag) {
-      const contactsFromLocalStorage = localStorage.getItem('contactList');
-
-      if (contactsFromLocalStorage !== 'undefined') {
-        const parsedContacts = JSON.parse(contactsFromLocalStorage);
-
-        if (parsedContacts) {
-        }
-      }
-      setFlag(false);
-    } else {
-      localStorage.setItem('contactList', JSON.stringify(contacts));
-    }
-  }, [contacts, firstRenderFlag]);
 
   const handleSubmit = e => {
     const name = e.name;
