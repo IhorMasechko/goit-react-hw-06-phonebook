@@ -1,30 +1,29 @@
-import propTypes from 'prop-types';
-import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import css from './ContactForm.module.css';
+import { addContact } from 'redux/slices/contacs';
+import { getContacts } from 'redux/selectors';
 
-export const ContactForm = ({ handleSubmit }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
 
-  const handleChangeName = e => {
-    const { value } = e.target;
-    setName(value);
-  };
-
-  const handleChangeNumber = e => {
-    const { value } = e.target;
-    setNumber(value);
-  };
-
-  const handleFormSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    handleSubmit({ name: name, number: number });
-    setName('');
-    setNumber('');
+    const form = e.target;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+    form.reset();
+    if (contacts.value.find(contact => contact.name === name)) {
+      alert(`${name} is already in contacts`);
+      return false;
+    }
+    dispatch(addContact(name, number));
+    return true;
   };
 
   return (
-    <form className={css.form} onSubmit={handleFormSubmit}>
+    <form className={css.form} onSubmit={handleSubmit}>
       <label className={css.formLabel}>Name </label>
       <input
         className={css.formName}
@@ -34,8 +33,6 @@ export const ContactForm = ({ handleSubmit }) => {
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
         placeholder="Enter name"
-        value={name}
-        onChange={handleChangeName}
       />
       <label className={css.formLabel}>Number </label>
       <input
@@ -46,8 +43,6 @@ export const ContactForm = ({ handleSubmit }) => {
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
         placeholder="Enter phone number"
-        value={number}
-        onChange={handleChangeNumber}
       />
       <button className={css.formBtn} type="submit">
         Add contact
@@ -57,5 +52,5 @@ export const ContactForm = ({ handleSubmit }) => {
 };
 
 ContactForm.propTypes = {
-  handleSubmit: propTypes.func.isRequired,
+  contacts: PropTypes.object,
 };
