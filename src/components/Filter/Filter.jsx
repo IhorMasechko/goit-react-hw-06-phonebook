@@ -20,6 +20,7 @@ export const Filter = () => {
         placeholder="Enter filter"
         onChange={handleChange}
         name="name"
+        autoComplete="off"
       />
     </div>
   );

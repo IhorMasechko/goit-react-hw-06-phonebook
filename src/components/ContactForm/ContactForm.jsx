@@ -23,7 +23,7 @@ export const ContactForm = () => {
   };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit}>
+    <form className={css.form} onSubmit={handleSubmit} autoComplete="off">
       <label className={css.formLabel}>Name </label>
       <input
         className={css.formName}
